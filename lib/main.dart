@@ -5,6 +5,8 @@ void main() {
   runApp(MyApp());
 }
 
+bool _checked = false;
+
 List<Predictor> programs = [
   Predictor(
     programName: 'BS Computer Science',
@@ -105,7 +107,7 @@ class Predictor {
       if (marks >= programs[i].merit) {
         newList.add(programs[i]);
       } else if (marks < 51) {
-        print('Foundation route only or wait for the next list');
+        newList.clear();
         break;
       }
     }
@@ -240,6 +242,7 @@ class _MyAppState extends State<MyApp> {
                                   merit: _number,
                                 );
                                 pred.checkMerit(_number);
+                                _checked = true;
                               });
                             },
                             child: Container(
@@ -263,9 +266,53 @@ class _MyAppState extends State<MyApp> {
                       ],
                     ),
                   ),
-                  Text(
-                    'Admission Possible in following Programs',
-                    style: TextStyle(color: Colors.white),
+                  SizedBox(width: 50),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 120),
+                      Text(
+                        'Admission Possible in',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35,
+                        ),
+                      ),
+                      Text(
+                        'following Programs:',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35,
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      SizedBox(
+                        height: 250,
+                        width: 350,
+                        child: !_checked
+                            ? Text(
+                                'Enter score, tap and check',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            : ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: newList.isEmpty ? 1 : newList.length,
+                                itemBuilder: (context, index) {
+                                  return newList.isEmpty
+                                      ? Text(
+                                          'Admission not possible yet.You can wait for the next merit list',
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      : Text(
+                                          newList[index].programName,
+                                          style: TextStyle(color: Colors.white),
+                                        );
+                                },
+                              ),
+                      ),
+                    ],
                   ),
                 ],
               ),
