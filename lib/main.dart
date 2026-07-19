@@ -14,14 +14,17 @@ class MyApp extends StatelessWidget {
         body: ListView.builder(
           itemCount: _count,
           itemBuilder: (context, index) {
-            return Container(
-              alignment: Alignment.center,
-              height: 75,
-              width: 120,
-              child: Text('Pe'),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(25.0),
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              child: Container(
+                alignment: Alignment.center,
+                height: 75,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Text('Pe'),
               ),
             );
           },
