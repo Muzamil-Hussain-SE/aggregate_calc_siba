@@ -5,6 +5,114 @@ void main() {
   runApp(MyApp());
 }
 
+List<Predictor> programs = [
+  Predictor(
+    programName: 'BS Computer Science',
+    dept: 'Department of Computer Science',
+    merit: 82,
+  ),
+  Predictor(
+    programName: 'BS Artificial Intelligence',
+    dept: 'Department of Computer Science',
+    merit: 85,
+  ),
+  Predictor(
+    programName: 'BS Software Engineering',
+    dept: 'Department of Computer Science',
+    merit: 78,
+  ),
+  Predictor(
+    programName: 'BS Accounting & Finance',
+    dept: 'Department of Business Administration',
+    merit: 75,
+  ),
+  Predictor(
+    programName: 'BBA (Marketing / HRM / Finance)',
+    dept: 'Department of Business Administration',
+    merit: 72,
+  ),
+  Predictor(
+    programName: 'BE Electrical Engineering',
+    dept: 'Department of Electrical Engineering',
+    merit: 68,
+  ),
+  Predictor(
+    programName: 'BE Computer System Engineering',
+    dept: 'Department of Computer System Engineering',
+    merit: 66,
+  ),
+  Predictor(
+    programName: 'BBA (Agribusiness)',
+    dept: 'Department of Business Administration',
+    merit: 65,
+  ),
+  Predictor(
+    programName: 'BS Mathematics',
+    dept: 'Department of Mathematics',
+    merit: 60,
+  ),
+  Predictor(
+    programName: 'BS Economics',
+    dept: 'Department of Business Administration',
+    merit: 58,
+  ),
+  Predictor(
+    programName: 'BS Media & Communication',
+    dept: 'Department of Media & Communication',
+    merit: 57,
+  ),
+  Predictor(
+    programName: 'B.Ed (Hons) - Elementary',
+    dept: 'Department of Education',
+    merit: 55,
+  ),
+  Predictor(
+    programName: 'B.Ed 2.5 Years (Extension)',
+    dept: 'Department of Education',
+    merit: 53,
+  ),
+  Predictor(
+    programName: 'BS Physical Education',
+    dept: 'Department of Physical Education',
+    merit: 53,
+  ),
+  Predictor(
+    programName: 'Associate Degree - Physical Education',
+    dept: 'Department of Physical Education',
+    merit: 51,
+  ),
+];
+List<Predictor> newList = [];
+
+class Predictor {
+  int marks = 0;
+
+  String programName = '';
+  String dept = '';
+  int merit = 0;
+  Predictor({
+    required this.programName,
+    required this.dept,
+    required this.merit,
+  });
+  @override
+  String toString() => '$programName ($dept) — Merit: $merit';
+
+  void checkMerit(int marks) {
+    newList.clear();
+    for (var i = 0; i < programs.length; i++) {
+      // print(programs[i].programName);
+      if (marks >= programs[i].merit) {
+        newList.add(programs[i]);
+      } else if (marks < 51) {
+        print('Foundation route only or wait for the next list');
+        break;
+      }
+    }
+    print(newList);
+  }
+}
+
 class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
@@ -101,8 +209,16 @@ class _MyAppState extends State<MyApp> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Enter Your Score';
+                                } else if (int.parse(value) > 100) {
+                                  return 'Marks must be less than 100';
                                 }
                                 return null;
+                              },
+                              onSaved: (newValue) {
+                                setState(() {
+                                  _number = int.tryParse(newValue ?? '') ?? 0;
+                                });
+                                print(_number);
                               },
                             ),
                           ),
@@ -113,7 +229,19 @@ class _MyAppState extends State<MyApp> {
                           child: InkWell(
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
-                            onTap: () {},
+                            onTap: () {
+                              setState(() {
+                                if (_key.currentState?.validate() ?? false) {
+                                  _key.currentState?.save();
+                                }
+                                Predictor pred = Predictor(
+                                  programName: 'BSCS',
+                                  dept: 'CS',
+                                  merit: _number,
+                                );
+                                pred.checkMerit(_number);
+                              });
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               height: 50,
@@ -134,6 +262,10 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ],
                     ),
+                  ),
+                  Text(
+                    'Admission Possible in following Programs',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               ),
