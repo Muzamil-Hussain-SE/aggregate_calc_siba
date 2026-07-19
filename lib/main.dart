@@ -266,7 +266,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 50),
+                  SizedBox(width: 200),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
