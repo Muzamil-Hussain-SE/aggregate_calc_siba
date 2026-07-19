@@ -33,31 +33,20 @@ class _MyAppState extends State<MyApp> {
                 height: 350,
                 width: 370,
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.7),
+                  color: Colors.grey.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Form(
                   key: _key,
                   child: Column(
                     children: [
-                      SizedBox(height: 100),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextFormField(
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          decoration: InputDecoration(
-                            hintText: 'Total Marks',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
+                      SizedBox(height: 15.0),
+                      CircleAvatar(
+                        radius: 65.0,
+                        backgroundImage: AssetImage('assets/siba.png'),
                       ),
 
+                      SizedBox(height: 8),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextFormField(
@@ -65,7 +54,8 @@ class _MyAppState extends State<MyApp> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           decoration: InputDecoration(
-                            hintText: 'Total Marks',
+                            hintText: 'Obtained Marks',
+
                             filled: true,
                             fillColor: Colors.white,
 
