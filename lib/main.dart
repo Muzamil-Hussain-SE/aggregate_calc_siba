@@ -21,44 +21,66 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Form(
-          key: _key,
-          child: Container(
-            alignment: Alignment.center,
-            height: 500,
-            width: 500,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(30.0),
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: Positioned.fill(
+                child: Image.asset('assets/sibabg2.jpeg', fit: BoxFit.cover),
+              ),
             ),
-            child: Column(
-              children: [
-                TextFormField(
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Total Test Marks',
-                    focusColor: Colors.blue,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
+            Center(
+              child: Container(
+                height: 350,
+                width: 370,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
-                TextFormField(
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Obtained Test Marks',
+                child: Form(
+                  key: _key,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 100),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            hintText: 'Total Marks',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      ),
 
-                    focusColor: Colors.blue,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            hintText: 'Total Marks',
+                            filled: true,
+                            fillColor: Colors.white,
+
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
