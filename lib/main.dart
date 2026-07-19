@@ -7,27 +7,45 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   int _count = 10;
+  final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: ListView.builder(
-          itemCount: _count,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-              child: Container(
-                alignment: Alignment.center,
-                height: 75,
-                width: 120,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(25.0),
+        body: Form(
+          key: _key,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Total Test Marks',
+                  focusColor: Colors.blue,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                 ),
-                child: Text('Pe'),
               ),
-            );
-          },
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Total Test Marks',
+                  focusColor: Colors.blue,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Total Test Marks',
+                  focusColor: Colors.blue,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
