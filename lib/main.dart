@@ -13,61 +13,129 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   int _count = 10;
+  int _number = 0;
 
   final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan.shade700),
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.black,
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: Positioned.fill(
-                child: Image.asset('assets/sibabg2.jpeg', fit: BoxFit.cover),
-              ),
-            ),
             Center(
-              child: Container(
-                height: 350,
-                width: 370,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: Form(
-                  key: _key,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 15.0),
-                      CircleAvatar(
-                        radius: 65.0,
-                        backgroundImage: AssetImage('assets/siba.png'),
-                      ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(width: 100),
+                  Container(
+                    height: 425,
+                    width: 425,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(40.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 85.0,
+                                vertical: 70.0,
+                              ),
+                              child: Container(
+                                height: 100,
+                                width: 95,
 
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextFormField(
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
+                                child: Image.asset(
+                                  'assets/sibalogo.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Admission',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  'Predictor',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
-                          decoration: InputDecoration(
-                            hintText: 'Obtained Marks',
-
-                            filled: true,
-                            fillColor: Colors.white,
-
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        Form(
+                          key: _key,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 65.0),
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              decoration: InputDecoration(
+                                label: Text('Your Score'),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Enter Your Score';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+                        Padding(
+                          padding: EdgeInsets.only(left: 175.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () {},
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                color: Colors.cyan.shade700,
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Text(
+                                'Check',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ],
