@@ -141,325 +141,436 @@ class _MyAppState extends State<MyApp> {
         body: Stack(
           children: [
             Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: (w <= 411 && h <= 937)
+                  ? Mobileui()
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        (w <= 411 && h <= 937)
+                            ? SizedBox(width: 100)
+                            : SizedBox(width: 50),
+                        (w <= 411 && h <= 937)
+                            ? Container(
+                                height: 150,
+                                width: 175,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 85.0,
+                                            vertical: 70.0,
+                                          ),
+                                          child: Container(
+                                            height: 100,
+                                            width: 95,
+
+                                            child: Image.asset(
+                                              'assets/sibalogo.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Admission',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Predictor',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Form(
+                                      key: _key,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 65.0,
+                                        ),
+                                        child: TextFormField(
+                                          style: TextStyle(color: Colors.white),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
+                                          decoration: InputDecoration(
+                                            label: Text('Your Score'),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                          ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Enter Your Score';
+                                            } else if (int.parse(value) > 100) {
+                                              return 'Marks must be less than 100';
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (newValue) {
+                                            setState(() {
+                                              _number =
+                                                  int.tryParse(
+                                                    newValue ?? '',
+                                                  ) ??
+                                                  0;
+                                            });
+                                            print(_number);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 25.0,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 175.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          setState(() {
+                                            if (_key.currentState?.validate() ??
+                                                false) {
+                                              _key.currentState?.save();
+                                            }
+                                            Predictor pred = Predictor(
+                                              programName: 'BSCS',
+                                              dept: 'CS',
+                                              merit: _number,
+                                            );
+                                            pred.checkMerit(_number);
+                                            _checked = true;
+                                          });
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          height: 50,
+                                          width: 130,
+                                          decoration: BoxDecoration(
+                                            color: Colors.cyan.shade700,
+                                            borderRadius: BorderRadius.circular(
+                                              12.0,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Check',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ) // mobile ends here
+                            : //web
+                              Container(
+                                height: 425,
+                                width: 425,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 85.0,
+                                            vertical: 70.0,
+                                          ),
+                                          child: Container(
+                                            height: 100,
+                                            width: 95,
+
+                                            child: Image.asset(
+                                              'assets/sibalogo.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Admission',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Predictor',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Form(
+                                      key: _key,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 65.0,
+                                        ),
+                                        child: TextFormField(
+                                          style: TextStyle(color: Colors.white),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
+                                          decoration: InputDecoration(
+                                            label: Text('Your Score'),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                          ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Enter Your Score';
+                                            } else if (int.parse(value) > 100) {
+                                              return 'Marks must be less than 100';
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (newValue) {
+                                            setState(() {
+                                              _number =
+                                                  int.tryParse(
+                                                    newValue ?? '',
+                                                  ) ??
+                                                  0;
+                                            });
+                                            print(_number);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 25.0,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 175.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          setState(() {
+                                            if (_key.currentState?.validate() ??
+                                                false) {
+                                              _key.currentState?.save();
+                                            }
+                                            Predictor pred = Predictor(
+                                              programName: 'BSCS',
+                                              dept: 'CS',
+                                              merit: _number,
+                                            );
+                                            pred.checkMerit(_number);
+                                            _checked = true;
+                                          });
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          height: 50,
+                                          width: 130,
+                                          decoration: BoxDecoration(
+                                            color: Colors.cyan.shade700,
+                                            borderRadius: BorderRadius.circular(
+                                              12.0,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Check',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        SizedBox(width: 200),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 120),
+                            Text(
+                              'Admission Possible in',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 35,
+                              ),
+                            ),
+                            Text(
+                              'following Programs:',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 35,
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            SizedBox(
+                              height: 250,
+                              width: 350,
+                              child: !_checked
+                                  ? Text(
+                                      'Enter score, tap and check',
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  : ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: newList.isEmpty
+                                          ? 1
+                                          : newList.length,
+                                      itemBuilder: (context, index) {
+                                        return newList.isEmpty
+                                            ? Text(
+                                                'Admission not possible yet.You can wait for the next merit list',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : Text(
+                                                newList[index].programName,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              );
+                                      },
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Mobileui extends StatefulWidget {
+  @override
+  State<Mobileui> createState() => _MobileuiState();
+}
+
+int _number = 0;
+final _key = GlobalKey<FormState>();
+
+class _MobileuiState extends State<Mobileui> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Admission Predictor',
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            Container(
+              height: 500,
+              width: 300,
+
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.black,
+                border: Border.all(color: Colors.white),
+              ),
+              child: Column(
                 children: [
-                  (w <= 411 && h <= 937)
-                      ? SizedBox(width: 100)
-                      : SizedBox(width: 50),
-                  (w <= 411 && h <= 937)
-                      ? Container(
-                          height: 425,
-                          width: 425,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 85.0,
-                                      vertical: 70.0,
-                                    ),
-                                    child: Container(
-                                      height: 100,
-                                      width: 95,
-
-                                      child: Image.asset(
-                                        'assets/sibalogo.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Admission',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Predictor',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Form(
-                                key: _key,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 65.0,
-                                  ),
-                                  child: TextFormField(
-                                    style: TextStyle(color: Colors.white),
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      label: Text('Your Score'),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          12.0,
-                                        ),
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Enter Your Score';
-                                      } else if (int.parse(value) > 100) {
-                                        return 'Marks must be less than 100';
-                                      }
-                                      return null;
-                                    },
-                                    onSaved: (newValue) {
-                                      setState(() {
-                                        _number =
-                                            int.tryParse(newValue ?? '') ?? 0;
-                                      });
-                                      print(_number);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 25.0),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 175.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () {
-                                    setState(() {
-                                      if (_key.currentState?.validate() ??
-                                          false) {
-                                        _key.currentState?.save();
-                                      }
-                                      Predictor pred = Predictor(
-                                        programName: 'BSCS',
-                                        dept: 'CS',
-                                        merit: _number,
-                                      );
-                                      pred.checkMerit(_number);
-                                      _checked = true;
-                                    });
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 50,
-                                    width: 130,
-                                    decoration: BoxDecoration(
-                                      color: Colors.cyan.shade700,
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: Text(
-                                      'Check',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : //mobile
-                        Container(
-                          height: 200,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 15.0,
-                                      vertical: 10.0,
-                                    ),
-                                    child: Container(
-                                      height: 75,
-                                      width: 60,
-
-                                      child: Image.asset(
-                                        'assets/sibalogo.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Admission',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Predictor',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Form(
-                                key: _key,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 65.0,
-                                  ),
-                                  child: TextFormField(
-                                    style: TextStyle(color: Colors.white),
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      label: Text('Your Score'),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          12.0,
-                                        ),
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Enter Your Score';
-                                      } else if (int.parse(value) > 100) {
-                                        return 'Marks must be less than 100';
-                                      }
-                                      return null;
-                                    },
-                                    onSaved: (newValue) {
-                                      setState(() {
-                                        _number =
-                                            int.tryParse(newValue ?? '') ?? 0;
-                                      });
-                                      print(_number);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 25.0),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 175.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () {
-                                    setState(() {
-                                      if (_key.currentState?.validate() ??
-                                          false) {
-                                        _key.currentState?.save();
-                                      }
-                                      Predictor pred = Predictor(
-                                        programName: 'BSCS',
-                                        dept: 'CS',
-                                        merit: _number,
-                                      );
-                                      pred.checkMerit(_number);
-                                      _checked = true;
-                                    });
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 50,
-                                    width: 130,
-                                    decoration: BoxDecoration(
-                                      color: Colors.cyan.shade700,
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: Text(
-                                      'Check',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                  Container(
+                    height: 150,
+                    width: 150,
+                    child: Image.asset(
+                      'assets/sibalogo.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Form(
+                    key: _key,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 30.0,
+                        vertical: 90.0,
+                      ),
+                      child: TextFormField(
+                        style: TextStyle(color: Colors.white),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: InputDecoration(
+                          label: Text('Your Score'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
-                  SizedBox(width: 200),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 120),
-                      Text(
-                        'Admission Possible in',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35,
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter Your Score';
+                          } else if (int.parse(value) > 100) {
+                            return 'Marks must be less than 100';
+                          }
+                          return null;
+                        },
+                        onSaved: (newValue) {
+                          setState(() {
+                            _number = int.tryParse(newValue ?? '') ?? 0;
+                          });
+                          print(_number);
+                        },
                       ),
-                      Text(
-                        'following Programs:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35,
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        height: 250,
-                        width: 350,
-                        child: !_checked
-                            ? Text(
-                                'Enter score, tap and check',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            : ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemCount: newList.isEmpty ? 1 : newList.length,
-                                itemBuilder: (context, index) {
-                                  return newList.isEmpty
-                                      ? Text(
-                                          'Admission not possible yet.You can wait for the next merit list',
-                                          style: TextStyle(color: Colors.white),
-                                        )
-                                      : Text(
-                                          newList[index].programName,
-                                          style: TextStyle(color: Colors.white),
-                                        );
-                                },
-                              ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
