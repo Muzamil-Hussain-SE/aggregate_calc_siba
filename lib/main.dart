@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() {
   runApp(MyApp());
@@ -332,8 +333,8 @@ class _MyAppState extends State<MyApp> {
                                             itemCount: newList.length,
                                             itemBuilder: (context, index) {
                                               return Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: 8.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 3.0,
                                                 ),
                                                 width: 380,
                                                 height: 90,
@@ -575,8 +576,8 @@ class _MyAppState extends State<MyApp> {
                                               itemCount: newList.length,
                                               itemBuilder: (context, index) {
                                                 return Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 8.0,
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 3.0,
                                                   ),
                                                   width: 350,
                                                   height: 90,
