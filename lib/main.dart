@@ -144,233 +144,257 @@ class _MyAppState extends State<MyApp> {
                 ),
                 alignment: Alignment.center,
                 child: w >= h
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 400,
-                            height: 400,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                Row(
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 400,
+                                height: 400,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                alignment: Alignment.center,
+                                child: Column(
                                   children: [
-                                    SizedBox(width: 40),
-                                    Image.network(
-                                      "https://i.ibb.co/XxMB0zhZ/sibalogo.png",
-                                      width: 100,
-                                      height: 100,
+                                    Row(
+                                      children: [
+                                        SizedBox(width: 40),
+                                        Image.network(
+                                          "https://i.ibb.co/XxMB0zhZ/sibalogo.png",
+                                          width: 100,
+                                          height: 100,
+                                        ),
+                                        Text(
+                                          "Admission Predictor",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Text(
-                                      "Admission Predictor",
+                                      "Enter your test score",
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Text(
-                                  "Enter your test score",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Form(
-                                  key: _key,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        width: 280,
-                                        height: 80,
-                                        child: TextFormField(
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          decoration: InputDecoration(
-                                            label: Text(
-                                              "Test Score",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(360),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(360),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: const Color.fromARGB(
-                                                  255,
-                                                  0,
-                                                  115,
-                                                  192,
+                                    SizedBox(height: 10),
+                                    Form(
+                                      key: _key,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: 280,
+                                            height: 80,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.numberWithOptions(),
+                                              decoration: InputDecoration(
+                                                label: Text(
+                                                  "Test Score",
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(360),
-                                            ),
-                                          ),
-                                          style: TextStyle(color: Colors.white),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter
-                                                .digitsOnly,
-                                          ],
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "Required field";
-                                            } else if (int.tryParse(value)! >
-                                                100) {
-                                              return 'Marks must be less than 100';
-                                            }
-
-                                            return null;
-                                          },
-                                          onSaved: (newValue) {
-                                            setState(() {
-                                              checkMerit(int.parse(newValue!));
-                                              _checked = true;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                      InkWell(
-                                        onTap: () {
-                                          if (_key.currentState!.validate()) {
-                                            _key.currentState!.save();
-                                          }
-                                        },
-                                        child: Container(
-                                          width: 100,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                const Color.fromARGB(
-                                                  255,
-                                                  2,
-                                                  67,
-                                                  121,
-                                                ),
-                                                const Color.fromARGB(
-                                                  255,
-                                                  1,
-                                                  1,
-                                                  79,
-                                                ),
-                                                const Color.fromARGB(
-                                                  255,
-                                                  6,
-                                                  1,
-                                                  168,
-                                                ),
-                                              ],
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              360,
-                                            ),
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "Check",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Container(
-                            width: 400,
-                            height: 400,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            alignment: Alignment.center,
-                            child: _checked
-                                ? newList.length == 0
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Text(
-                                            "Sorry admission not possible in any program, better luck next time",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          width: 400,
-                                          height: 400,
-                                          child: ListView.builder(
-                                            itemCount: newList.length,
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                  vertical: 3.0,
-                                                ),
-                                                width: 380,
-                                                height: 90,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
                                                     color: Colors.white,
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                        15.0,
+                                                        360,
                                                       ),
                                                 ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                    8.0,
-                                                  ),
-                                                  child: Text(
-                                                    "${newList[index].programName} ${newList[index].dept}",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            360,
+                                                          ),
                                                     ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            const Color.fromARGB(
+                                                              255,
+                                                              0,
+                                                              115,
+                                                              192,
+                                                            ),
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            360,
+                                                          ),
+                                                    ),
+                                              ),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly,
+                                              ],
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return "Required field";
+                                                } else if (int.tryParse(
+                                                      value,
+                                                    )! >
+                                                    100) {
+                                                  return 'Marks must be less than 100';
+                                                }
+
+                                                return null;
+                                              },
+                                              onSaved: (newValue) {
+                                                setState(() {
+                                                  checkMerit(
+                                                    int.parse(newValue!),
+                                                  );
+                                                  _checked = true;
+                                                });
+                                              },
+                                            ),
                                           ),
-                                        )
-                                : Text(
-                                    "Please enter your marks",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
+                                          SizedBox(height: 20),
+                                          InkWell(
+                                            onTap: () {
+                                              if (_key.currentState!
+                                                  .validate()) {
+                                                _key.currentState!.save();
+                                              }
+                                            },
+                                            child: Container(
+                                              width: 100,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    const Color.fromARGB(
+                                                      255,
+                                                      2,
+                                                      67,
+                                                      121,
+                                                    ),
+                                                    const Color.fromARGB(
+                                                      255,
+                                                      1,
+                                                      1,
+                                                      79,
+                                                    ),
+                                                    const Color.fromARGB(
+                                                      255,
+                                                      6,
+                                                      1,
+                                                      168,
+                                                    ),
+                                                  ],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(360),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Check",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Container(
+                                width: 400,
+                                height: 400,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                alignment: Alignment.center,
+                                child: _checked
+                                    ? newList.length == 0
+                                          ? Padding(
+                                              padding: const EdgeInsets.all(20),
+                                              child: Text(
+                                                "Sorry admission not possible in any program, better luck next time",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox(
+                                              width: 400,
+                                              height: 400,
+                                              child: ListView.builder(
+                                                itemCount: newList.length,
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                          vertical: 3.0,
+                                                        ),
+                                                    width: 380,
+                                                    height: 90,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.white,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            15.0,
+                                                          ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                            8.0,
+                                                          ),
+                                                      child: Text(
+                                                        "${newList[index].programName} ${newList[index].dept}",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                    : Text(
+                                        "Please enter your marks",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                              ),
+                            ],
                           ),
+                          const SizedBox(height: 20),
+                          _buildCreditFooter(),
                         ],
                       )
                     : Padding(
@@ -615,6 +639,8 @@ class _MyAppState extends State<MyApp> {
                                       ),
                                     ),
                             ),
+                            const SizedBox(height: 20),
+                            _buildCreditFooter(),
                           ],
                         ),
                       ),
@@ -625,4 +651,65 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+}
+
+Widget _buildCreditFooter() {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(360),
+      gradient: LinearGradient(
+        colors: [
+          Colors.white.withOpacity(0.06),
+          Colors.white.withOpacity(0.02),
+        ],
+      ),
+      border: Border.all(color: Colors.white.withOpacity(0.15)),
+      boxShadow: [
+        BoxShadow(
+          color: const Color.fromARGB(255, 6, 1, 168).withOpacity(0.35),
+          blurRadius: 18,
+          spreadRadius: 1,
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ShaderMask(
+          shaderCallback: (bounds) => LinearGradient(
+            colors: [
+              Colors.cyanAccent.shade100,
+              const Color.fromARGB(255, 0, 200, 255),
+              const Color.fromARGB(255, 140, 90, 255),
+            ],
+          ).createShader(bounds),
+          child: const Icon(
+            Icons.favorite_rounded,
+            size: 14,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(width: 8),
+        ShaderMask(
+          shaderCallback: (bounds) => LinearGradient(
+            colors: [
+              Colors.cyanAccent.shade100,
+              const Color.fromARGB(255, 0, 200, 255),
+              const Color.fromARGB(255, 140, 90, 255),
+            ],
+          ).createShader(bounds),
+          child: const Text(
+            "Made by Muzamil Hussain",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.6,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
