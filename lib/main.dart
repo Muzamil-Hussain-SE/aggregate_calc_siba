@@ -97,21 +97,15 @@ class Predictor {
     required this.dept,
     required this.merit,
   });
-  @override
-  String toString() => '$programName ($dept) — Merit: $merit';
+}
 
-  void checkMerit(int marks) {
-    newList.clear();
-    for (var i = 0; i < programs.length; i++) {
-      // print(programs[i].programName);
-      if (marks >= programs[i].merit) {
-        newList.add(programs[i]);
-      } else if (marks < 51) {
-        newList.clear();
-        break;
-      }
+void checkMerit(int marks) {
+  newList.clear();
+  for (var i = 0; i < programs.length; i++) {
+    // print(programs[i].programName);
+    if (marks >= programs[i].merit) {
+      newList.add(programs[i]);
     }
-    print(newList);
   }
 }
 
@@ -121,553 +115,486 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
-
-  int _number = 0;
-
   final _key = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final double w = MediaQuery.of(context).size.width;
     final double h = MediaQuery.of(context).size.height;
     return MaterialApp(
+      title: "SIBA Admission Predictor",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan.shade700),
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.black,
         body: Stack(
+          alignment: Alignment.center,
           children: [
-            Center(
-              child: (w <= 411 && h <= 937)
-                  ? Mobileui()
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        (w <= 411 && h <= 937)
-                            ? SizedBox(width: 100)
-                            : SizedBox(width: 50),
-                        (w <= 411 && h <= 937)
-                            ? Container(
-                                height: 150,
-                                width: 175,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                                child: Column(
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.black,
+                      Colors.black,
+                      const Color.fromARGB(255, 1, 28, 74),
+                    ],
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: w >= h
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 400,
+                            height: 400,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 85.0,
-                                            vertical: 70.0,
-                                          ),
-                                          child: Container(
-                                            height: 100,
-                                            width: 95,
-
-                                            child: Image.asset(
-                                              'assets/sibalogo.png',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Admission',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Predictor',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                    SizedBox(width: 40),
+                                    Image.network(
+                                      "https://i.ibb.co/XxMB0zhZ/sibalogo.png",
+                                      width: 100,
+                                      height: 100,
                                     ),
-                                    Form(
-                                      key: _key,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 65.0,
-                                        ),
-                                        child: TextFormField(
-                                          style: TextStyle(color: Colors.white),
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter
-                                                .digitsOnly,
-                                          ],
-                                          decoration: InputDecoration(
-                                            label: Text('Your Score'),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                          ),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Enter Your Score';
-                                            } else if (int.parse(value) > 100) {
-                                              return 'Marks must be less than 100';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (newValue) {
-                                            setState(() {
-                                              _number =
-                                                  int.tryParse(
-                                                    newValue ?? '',
-                                                  ) ??
-                                                  0;
-                                            });
-                                            print(_number);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 175.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          setState(() {
-                                            if (_key.currentState?.validate() ??
-                                                false) {
-                                              _key.currentState?.save();
-                                            }
-                                            Predictor pred = Predictor(
-                                              programName: 'BSCS',
-                                              dept: 'CS',
-                                              merit: _number,
-                                            );
-                                            pred.checkMerit(_number);
-                                            _checked = true;
-                                          });
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          height: 50,
-                                          width: 130,
-                                          decoration: BoxDecoration(
-                                            color: Colors.cyan.shade700,
-                                            borderRadius: BorderRadius.circular(
-                                              12.0,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'Check',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
+                                    Text(
+                                      "Admission Predictor",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ) // mobile ends here
-                            : //web
-                              Container(
-                                height: 425,
-                                width: 425,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(40.0),
+                                Text(
+                                  "Enter your test score",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 85.0,
-                                            vertical: 70.0,
-                                          ),
-                                          child: Container(
-                                            height: 100,
-                                            width: 95,
-
-                                            child: Image.asset(
-                                              'assets/sibalogo.png',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Admission',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Predictor',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Form(
-                                      key: _key,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 65.0,
-                                        ),
+                                SizedBox(height: 10),
+                                Form(
+                                  key: _key,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 280,
+                                        height: 50,
                                         child: TextFormField(
-                                          style: TextStyle(color: Colors.white),
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter
-                                                .digitsOnly,
-                                          ],
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(),
                                           decoration: InputDecoration(
-                                            label: Text('Your Score'),
+                                            label: Text(
+                                              "Test Score",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                              ),
+                                            ),
                                             border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
                                               borderRadius:
-                                                  BorderRadius.circular(12.0),
+                                                  BorderRadius.circular(360),
                                             ),
-                                          ),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Enter Your Score';
-                                            } else if (int.parse(value) > 100) {
-                                              return 'Marks must be less than 100';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (newValue) {
-                                            setState(() {
-                                              _number =
-                                                  int.tryParse(
-                                                    newValue ?? '',
-                                                  ) ??
-                                                  0;
-                                            });
-                                            print(_number);
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 25.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 175.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          setState(() {
-                                            if (_key.currentState?.validate() ??
-                                                false) {
-                                              _key.currentState?.save();
-                                            }
-                                            Predictor pred = Predictor(
-                                              programName: 'BSCS',
-                                              dept: 'CS',
-                                              merit: _number,
-                                            );
-                                            pred.checkMerit(_number);
-                                            _checked = true;
-                                          });
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          height: 50,
-                                          width: 130,
-                                          decoration: BoxDecoration(
-                                            color: Colors.cyan.shade700,
-                                            borderRadius: BorderRadius.circular(
-                                              12.0,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(360),
                                             ),
-                                          ),
-                                          child: Text(
-                                            'Check',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                        SizedBox(width: 200),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 120),
-                            Text(
-                              'Admission Possible in',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 35,
-                              ),
-                            ),
-                            Text(
-                              'following Programs:',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 35,
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            SizedBox(
-                              height: 250,
-                              width: 350,
-                              child: !_checked
-                                  ? Text(
-                                      'Enter score, tap and check',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  : ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: newList.isEmpty
-                                          ? 1
-                                          : newList.length,
-                                      itemBuilder: (context, index) {
-                                        return newList.isEmpty
-                                            ? Text(
-                                                'Admission not possible yet.You can wait for the next merit list',
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: const Color.fromARGB(
+                                                  255,
+                                                  0,
+                                                  115,
+                                                  192,
                                                 ),
-                                              )
-                                            : Text(
-                                                newList[index].programName,
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(360),
+                                            ),
+                                          ),
+                                          style: TextStyle(color: Colors.white),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return "Required feild";
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (newValue) {
+                                            setState(() {
+                                              checkMerit(int.parse(newValue!));
+                                              _checked = true;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      InkWell(
+                                        onTap: () {
+                                          if (_key.currentState!.validate()) {
+                                            _key.currentState!.save();
+                                          }
+                                        },
+                                        child: Container(
+                                          width: 100,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                const Color.fromARGB(
+                                                  255,
+                                                  2,
+                                                  67,
+                                                  121,
+                                                ),
+                                                const Color.fromARGB(
+                                                  255,
+                                                  1,
+                                                  1,
+                                                  79,
+                                                ),
+                                                const Color.fromARGB(
+                                                  255,
+                                                  6,
+                                                  1,
+                                                  168,
+                                                ),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              360,
+                                            ),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Check",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Container(
+                            width: 400,
+                            height: 400,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            alignment: Alignment.center,
+                            child: _checked
+                                ? newList.length == 0
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: Text(
+                                            "Sorry admission not possible in any program, better luck next time",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          width: 400,
+                                          height: 400,
+                                          child: ListView.builder(
+                                            itemCount: newList.length,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                width: 380,
+                                                height: 90,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    8.0,
+                                                  ),
+                                                  child: Text(
+                                                    "${newList[index].programName} ${newList[index].dept}",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
                                                 ),
                                               );
-                                      },
+                                            },
+                                          ),
+                                        )
+                                : Text(
+                                    "Please enter your marks",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: ListView(
+                          scrollDirection: Axis.vertical,
+                          children: [
+                            Container(
+                              width: 330,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(width: 40),
+                                      Image.network(
+                                        "https://i.ibb.co/XxMB0zhZ/sibalogo.png",
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "Admission",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Predictor",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    "Enter your test score",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Form(
+                                    key: _key,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          width: 280,
+                                          height: 50,
+                                          child: TextFormField(
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(),
+                                            decoration: InputDecoration(
+                                              label: Text(
+                                                "Test Score",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(360),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(360),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: const Color.fromARGB(
+                                                    255,
+                                                    0,
+                                                    115,
+                                                    192,
+                                                  ),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(360),
+                                              ),
+                                            ),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                            ],
+                                            validator: (value) {
+                                              if (value == null) {
+                                                return "Required feild";
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (newValue) {
+                                              setState(() {
+                                                checkMerit(
+                                                  int.parse(newValue!),
+                                                );
+                                                _checked = true;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        InkWell(
+                                          onTap: () {
+                                            if (_key.currentState!.validate()) {
+                                              _key.currentState!.save();
+                                            }
+                                          },
+                                          child: Container(
+                                            width: 100,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  const Color.fromARGB(
+                                                    255,
+                                                    2,
+                                                    67,
+                                                    121,
+                                                  ),
+                                                  const Color.fromARGB(
+                                                    255,
+                                                    1,
+                                                    1,
+                                                    79,
+                                                  ),
+                                                  const Color.fromARGB(
+                                                    255,
+                                                    6,
+                                                    1,
+                                                    168,
+                                                  ),
+                                                ],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(360),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Check",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              width: 330,
+                              height: 400,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              alignment: Alignment.center,
+                              child: _checked
+                                  ? newList.length == 0
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Text(
+                                              "Sorry admission not possible in any program, better luck next time",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            width: 370,
+                                            height: 400,
+                                            child: ListView.builder(
+                                              itemCount: newList.length,
+                                              itemBuilder: (context, index) {
+                                                return Container(
+                                                  width: 350,
+                                                  height: 90,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
+                                                    child: Text(
+                                                      "${newList[index].programName} ${newList[index].dept}",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                  : Text(
+                                      "Please enter your marks",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
                                     ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Mobileui extends StatefulWidget {
-  @override
-  State<Mobileui> createState() => _MobileuiState();
-}
-
-int _number = 0;
-final _key = GlobalKey<FormState>();
-
-class _MobileuiState extends State<Mobileui> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: ListView(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 50),
-                Container(
-                  height: 500,
-                  width: 300,
-
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.black,
-                    border: Border.all(color: Colors.white),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 150,
-                        width: 150,
-                        child: Image.asset(
-                          'assets/sibalogo.png',
-                          fit: BoxFit.cover,
-                        ),
                       ),
-                      Text(
-                        'Admission Predictor',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                      Form(
-                        key: _key,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 30.0,
-                            vertical: 90.0,
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            decoration: InputDecoration(
-                              label: Text('Your Score'),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Your Score';
-                              } else if (int.parse(value) > 100) {
-                                return 'Marks must be less than 100';
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              setState(() {
-                                _number = int.tryParse(newValue ?? '') ?? 0;
-                              });
-                              print(_number);
-                            },
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 110.0),
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () {
-                            setState(() {
-                              if (_key.currentState?.validate() ?? false) {
-                                _key.currentState?.save();
-                              }
-                              Predictor pred = Predictor(
-                                programName: 'BSCS',
-                                dept: 'CS',
-                                merit: _number,
-                              );
-                              pred.checkMerit(_number);
-                              _checked = true;
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 50,
-                            width: 130,
-                            decoration: BoxDecoration(
-                              color: Colors.cyan.shade700,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Text(
-                              'Check',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 200),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 50),
-                    Text(
-                      'Admission Possible in',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
-                    ),
-                    Text(
-                      'following Programs:',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      height: 250,
-                      width: 250,
-                      child: !_checked
-                          ? Text(
-                              'Enter score, tap and check',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          : ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: newList.isEmpty ? 1 : newList.length,
-                              itemBuilder: (context, index) {
-                                return newList.isEmpty
-                                    ? Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Admission not possible yet.You can wait for the next merit list',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      )
-                                    : Text(
-                                        newList[index].programName,
-                                        style: TextStyle(color: Colors.white),
-                                      );
-                              },
-                            ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ],
         ),
