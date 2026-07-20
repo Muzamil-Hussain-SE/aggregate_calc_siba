@@ -572,6 +572,40 @@ class _MobileuiState extends State<Mobileui> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 110.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        setState(() {
+                          if (_key.currentState?.validate() ?? false) {
+                            _key.currentState?.save();
+                          }
+                          Predictor pred = Predictor(
+                            programName: 'BSCS',
+                            dept: 'CS',
+                            merit: _number,
+                          );
+                          pred.checkMerit(_number);
+                          _checked = true;
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50,
+                        width: 130,
+                        decoration: BoxDecoration(
+                          color: Colors.cyan.shade700,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Text(
+                          'Check',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
