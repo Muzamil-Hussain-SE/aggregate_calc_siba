@@ -509,105 +509,165 @@ class _MobileuiState extends State<Mobileui> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: [
-            Text(
-              'Admission Predictor',
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            Container(
-              height: 500,
-              width: 300,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 50),
+                Container(
+                  height: 500,
+                  width: 300,
 
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.black,
-                border: Border.all(color: Colors.white),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    height: 150,
-                    width: 150,
-                    child: Image.asset(
-                      'assets/sibalogo.png',
-                      fit: BoxFit.cover,
-                    ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.black,
+                    border: Border.all(color: Colors.white),
                   ),
-                  Form(
-                    key: _key,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                        vertical: 90.0,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: Image.asset(
+                          'assets/sibalogo.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      child: TextFormField(
-                        style: TextStyle(color: Colors.white),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          label: Text('Your Score'),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
+                      Text(
+                        'Admission Predictor',
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                      Form(
+                        key: _key,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30.0,
+                            vertical: 90.0,
+                          ),
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            decoration: InputDecoration(
+                              label: Text('Your Score'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Enter Your Score';
+                              } else if (int.parse(value) > 100) {
+                                return 'Marks must be less than 100';
+                              }
+                              return null;
+                            },
+                            onSaved: (newValue) {
+                              setState(() {
+                                _number = int.tryParse(newValue ?? '') ?? 0;
+                              });
+                              print(_number);
+                            },
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter Your Score';
-                          } else if (int.parse(value) > 100) {
-                            return 'Marks must be less than 100';
-                          }
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          setState(() {
-                            _number = int.tryParse(newValue ?? '') ?? 0;
-                          });
-                          print(_number);
-                        },
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 110.0),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        setState(() {
-                          if (_key.currentState?.validate() ?? false) {
-                            _key.currentState?.save();
-                          }
-                          Predictor pred = Predictor(
-                            programName: 'BSCS',
-                            dept: 'CS',
-                            merit: _number,
-                          );
-                          pred.checkMerit(_number);
-                          _checked = true;
-                        });
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          color: Colors.cyan.shade700,
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: Text(
-                          'Check',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                      Padding(
+                        padding: EdgeInsets.only(left: 110.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            setState(() {
+                              if (_key.currentState?.validate() ?? false) {
+                                _key.currentState?.save();
+                              }
+                              Predictor pred = Predictor(
+                                programName: 'BSCS',
+                                dept: 'CS',
+                                merit: _number,
+                              );
+                              pred.checkMerit(_number);
+                              _checked = true;
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: Colors.cyan.shade700,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Text(
+                              'Check',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                SizedBox(width: 200),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 50),
+                    Text(
+                      'Admission Possible in',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                    Text(
+                      'following Programs:',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      height: 250,
+                      width: 250,
+                      child: !_checked
+                          ? Text(
+                              'Enter score, tap and check',
+                              style: TextStyle(color: Colors.white),
+                            )
+                          : ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: newList.isEmpty ? 1 : newList.length,
+                              itemBuilder: (context, index) {
+                                return newList.isEmpty
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Admission not possible yet.You can wait for the next merit list',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )
+                                    : Text(
+                                        newList[index].programName,
+                                        style: TextStyle(color: Colors.white),
+                                      );
+                              },
+                            ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
