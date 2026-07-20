@@ -332,12 +332,19 @@ class _MyAppState extends State<MyApp> {
                                             itemCount: newList.length,
                                             itemBuilder: (context, index) {
                                               return Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 8.0,
+                                                ),
                                                 width: 380,
                                                 height: 90,
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
                                                     color: Colors.white,
                                                   ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        15.0,
+                                                      ),
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
@@ -423,7 +430,7 @@ class _MyAppState extends State<MyApp> {
                                       children: [
                                         SizedBox(
                                           width: 280,
-                                          height: 50,
+                                          height: 80,
                                           child: TextFormField(
                                             keyboardType:
                                                 TextInputType.numberWithOptions(),
@@ -431,8 +438,8 @@ class _MyAppState extends State<MyApp> {
                                               label: Text(
                                                 "Test Score",
                                                 style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
+                                                  color: Colors.grey,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                               border: OutlineInputBorder(
@@ -470,8 +477,12 @@ class _MyAppState extends State<MyApp> {
                                                   .digitsOnly,
                                             ],
                                             validator: (value) {
-                                              if (value == null) {
-                                                return "Required feild";
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return "Required field";
+                                              } else if (int.tryParse(value)! >
+                                                  100) {
+                                                return 'Marks must be less than 100';
                                               }
                                               return null;
                                             },
@@ -564,12 +575,19 @@ class _MyAppState extends State<MyApp> {
                                               itemCount: newList.length,
                                               itemBuilder: (context, index) {
                                                 return Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 8.0,
+                                                  ),
                                                   width: 350,
                                                   height: 90,
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
                                                       color: Colors.white,
                                                     ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          15.0,
+                                                        ),
                                                   ),
                                                   child: Padding(
                                                     padding:
