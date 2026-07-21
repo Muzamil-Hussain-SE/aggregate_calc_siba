@@ -12,77 +12,77 @@ List<Predictor> programs = [
   Predictor(
     programName: 'BS Computer Science',
     dept: 'Department of Computer Science',
-    merit: 82,
+    merit: 64,
   ),
   Predictor(
     programName: 'BS Artificial Intelligence',
     dept: 'Department of Computer Science',
-    merit: 85,
+    merit: 63,
   ),
   Predictor(
     programName: 'BS Software Engineering',
     dept: 'Department of Computer Science',
-    merit: 78,
+    merit: 61,
   ),
   Predictor(
     programName: 'BS Accounting & Finance',
     dept: 'Department of Business Administration',
-    merit: 75,
+    merit: 58,
   ),
   Predictor(
     programName: 'BBA (Marketing / HRM / Finance)',
     dept: 'Department of Business Administration',
-    merit: 72,
+    merit: 52,
   ),
   Predictor(
     programName: 'BE Electrical Engineering',
     dept: 'Department of Electrical Engineering',
-    merit: 68,
+    merit: 40,
   ),
   Predictor(
     programName: 'BE Computer System Engineering',
     dept: 'Department of Computer System Engineering',
-    merit: 66,
+    merit: 42,
   ),
   Predictor(
     programName: 'BBA (Agribusiness)',
     dept: 'Department of Business Administration',
-    merit: 65,
+    merit: 41,
   ),
   Predictor(
     programName: 'BS Mathematics',
     dept: 'Department of Mathematics',
-    merit: 60,
+    merit: 40,
   ),
   Predictor(
     programName: 'BS Economics',
     dept: 'Department of Business Administration',
-    merit: 58,
+    merit: 40,
   ),
   Predictor(
     programName: 'BS Media & Communication',
     dept: 'Department of Media & Communication',
-    merit: 57,
+    merit: 43,
   ),
   Predictor(
     programName: 'B.Ed (Hons) - Elementary',
     dept: 'Department of Education',
-    merit: 55,
+    merit: 44,
   ),
   Predictor(
     programName: 'B.Ed 2.5 Years (Extension)',
     dept: 'Department of Education',
-    merit: 53,
+    merit: 44,
   ),
   Predictor(
     programName: 'BS Physical Education',
     dept: 'Department of Physical Education',
-    merit: 53,
+    merit: 40,
   ),
   Predictor(
     programName: 'Associate Degree - Physical Education',
     dept: 'Department of Physical Education',
-    merit: 51,
+    merit: 40,
   ),
 ];
 List<Predictor> newList = [];
