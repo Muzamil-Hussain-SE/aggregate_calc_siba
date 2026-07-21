@@ -10,25 +10,7 @@ A simple Flutter application that helps prospective students predict which acade
 - ✅ **Input Validation** – Ensures only valid numeric scores (0–100) are accepted.
 - 🎨 **Modern UI** – Dark gradient theme with rounded cards, gradient buttons, and a styled credit footer.
 
-## Programs Included
 
-| Program | Department | Merit |
-|---|---|---|
-| BS Computer Science | Department of Computer Science | 64 |
-| BS Artificial Intelligence | Department of Computer Science | 63 |
-| BS Software Engineering | Department of Computer Science | 61 |
-| BS Accounting & Finance | Department of Business Administration | 58 |
-| BBA (Marketing / HRM / Finance) | Department of Business Administration | 52 |
-| BE Computer System Engineering | Department of Computer System Engineering | 42 |
-| BE Electrical Engineering | Department of Electrical Engineering | 40 |
-| BBA (Agribusiness) | Department of Business Administration | 41 |
-| BS Mathematics | Department of Mathematics | 40 |
-| BS Economics | Department of Business Administration | 40 |
-| BS Media & Communication | Department of Media & Communication | 43 |
-| B.Ed (Hons) - Elementary | Department of Education | 44 |
-| B.Ed 2.5 Years (Extension) | Department of Education | 44 |
-| BS Physical Education | Department of Physical Education | 40 |
-| Associate Degree - Physical Education | Department of Physical Education | 40 |
 
 ## How It Works
 
