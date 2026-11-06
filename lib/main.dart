@@ -1,22 +1,18 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() => runApp(const MyApp());
 
-// ---------- Maximal palette ----------
-const ink = Color(0xFF14002E);
-const plum = Color(0xFF3B0A6B);
-const hotPink = Color(0xFFFF2E93);
-const sun = Color(0xFFFFC93C);
-const aqua = Color(0xFF00E5FF);
-const lime = Color(0xFFB6FF3B);
-const coral = Color(0xFFFF6B4A);
-const tileColors = [hotPink, sun, aqua, lime, coral];
+// ---------- Glass palette: vivid backdrop, frosted white surfaces ----------
+const deep = Color(0xFF0B1030);
+const violet = Color(0xFF7C4DFF);
+const aqua = Color(0xFF22D3EE);
+const rose = Color(0xFFFF5C93);
+const amber = Color(0xFFFFB86B);
 
 const logoUrl = "https://i.ibb.co/XxMB0zhZ/sibalogo.png";
 
-// ---------- Data ----------
 class Predictor {
   final String programName;
   final String dept;
@@ -69,17 +65,6 @@ const programs = <Predictor>[
 List<Predictor> checkMerit(int marks) =>
     programs.where((p) => marks >= p.merit).toList();
 
-IconData iconFor(String dept) {
-  if (dept.contains('Computer')) return Icons.memory_rounded;
-  if (dept.contains('Business')) return Icons.trending_up_rounded;
-  if (dept.contains('Electrical')) return Icons.bolt_rounded;
-  if (dept.contains('Math')) return Icons.functions_rounded;
-  if (dept.contains('Media')) return Icons.podcasts_rounded;
-  if (dept.contains('Education')) return Icons.menu_book_rounded;
-  return Icons.sports_soccer_rounded;
-}
-
-// ---------- App ----------
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -90,7 +75,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: hotPink,
+          seedColor: violet,
           brightness: Brightness.dark,
         ),
       ),
@@ -118,92 +103,129 @@ class _PredictorPageState extends State<PredictorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              ink,
-              Color(0xFF2A0657),
-              Color(0xFF5A0F6E),
-              Color(0xFF01274F),
-            ],
-          ),
-        ),
-        child: Stack(
-          children: [
-            const Positioned.fill(
-              child: RepaintBoundary(child: CustomPaint(painter: BgPainter())),
-            ),
-            SafeArea(
-              child: LayoutBuilder(
-                builder: (context, c) {
-                  final wide = c.maxWidth >= 900;
-                  final inputCard = _inputCard();
-                  final resultCard = _resultCard();
-                  return Center(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(28),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          wide
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(width: 430, child: inputCard),
-                                    const SizedBox(width: 36),
-                                    SizedBox(width: 430, child: resultCard),
-                                  ],
-                                )
-                              : ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 430,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      inputCard,
-                                      const SizedBox(height: 32),
-                                      resultCard,
-                                    ],
-                                  ),
+      backgroundColor: deep,
+      body: Stack(
+        children: [
+          const Positioned.fill(child: _Backdrop()),
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, c) {
+                final wide = c.maxWidth >= 900;
+                final input = _inputCard();
+                final result = _resultCard();
+                return Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(28),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        wide
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(width: 420, child: input),
+                                  const SizedBox(width: 28),
+                                  SizedBox(width: 420, child: result),
+                                ],
+                              )
+                            : ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 420,
                                 ),
-                          const SizedBox(height: 34),
-                          const CreditFooter(),
-                        ],
-                      ),
+                                child: Column(
+                                  children: [
+                                    input,
+                                    const SizedBox(height: 24),
+                                    result,
+                                  ],
+                                ),
+                              ),
+                        const SizedBox(height: 28),
+                        const Glass(
+                          radius: 360,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.favorite_rounded,
+                                size: 15,
+                                color: rose,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "Made by Muzamil Hussain",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.4,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  // ---------- Input card ----------
   Widget _inputCard() {
-    return PopCard(
-      color: plum,
-      shadow: hotPink,
-      angle: -0.012,
+    return Glass(
+      padding: const EdgeInsets.all(26),
       child: Column(
         children: [
-          _header(),
-          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.92),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(color: aqua.withOpacity(0.5), blurRadius: 22),
+                  ],
+                ),
+                child: Image.network(
+                  logoUrl,
+                  width: 52,
+                  height: 52,
+                  errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.school_rounded, size: 52, color: deep),
+                ),
+              ),
+              const SizedBox(width: 16),
+              const Flexible(
+                child: Text(
+                  "Admission\nPredictor",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                    height: 1.1,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 26),
           const Text(
             "Enter your test score",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           Form(
             key: _key,
             child: Column(
@@ -213,32 +235,24 @@ class _PredictorPageState extends State<PredictorPage> {
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _submit(),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  cursorColor: aqua,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.1),
                     labelText: "Test score (0 to 100)",
-                    labelStyle: const TextStyle(
-                      color: sun,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    errorStyle: const TextStyle(
-                      color: lime,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    prefixIcon: const Icon(
-                      Icons.edit_note_rounded,
-                      color: aqua,
-                    ),
-                    border: _field(Colors.white),
-                    enabledBorder: _field(sun),
-                    focusedBorder: _field(aqua, 4),
-                    errorBorder: _field(lime),
-                    focusedErrorBorder: _field(lime, 4),
+                    labelStyle: const TextStyle(color: Colors.white60),
+                    floatingLabelStyle: const TextStyle(color: aqua),
+                    errorStyle: const TextStyle(color: amber),
+                    border: _field(Colors.white30),
+                    enabledBorder: _field(Colors.white30),
+                    focusedBorder: _field(aqua, 1.8),
+                    errorBorder: _field(amber),
+                    focusedErrorBorder: _field(amber, 1.8),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) return "Required field";
@@ -253,7 +267,7 @@ class _PredictorPageState extends State<PredictorPage> {
                   }),
                 ),
                 const SizedBox(height: 22),
-                _checkButton(),
+                _button(),
               ],
             ),
           ),
@@ -262,77 +276,20 @@ class _PredictorPageState extends State<PredictorPage> {
     );
   }
 
-  OutlineInputBorder _field(Color c, [double w = 3]) => OutlineInputBorder(
+  OutlineInputBorder _field(Color c, [double w = 1]) => OutlineInputBorder(
     borderSide: BorderSide(color: c, width: w),
-    borderRadius: BorderRadius.circular(360),
+    borderRadius: BorderRadius.circular(18),
   );
 
-  Widget _header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(color: sun, width: 4),
-            boxShadow: const [BoxShadow(color: aqua, offset: Offset(6, 6))],
-          ),
-          child: Image.network(
-            logoUrl,
-            width: 64,
-            height: 64,
-            errorBuilder: (_, __, ___) =>
-                const Icon(Icons.school_rounded, size: 64, color: ink),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Admission",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w900,
-                  fontStyle: FontStyle.italic,
-                  letterSpacing: -1,
-                ),
-              ),
-              AnimatedTextKit(
-                repeatForever: true,
-                isRepeatingAnimation: true,
-                animatedTexts: [
-                  ColorizeAnimatedText(
-                    "Predictor",
-                    textStyle: const TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: -1.5,
-                    ),
-                    colors: const [sun, hotPink, aqua, lime, sun],
-                    speed: const Duration(milliseconds: 350),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _checkButton() {
-    return Container(
+  Widget _button() {
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(360),
-        border: Border.all(color: Colors.white, width: 3),
-        gradient: const LinearGradient(colors: [hotPink, coral, sun]),
-        boxShadow: const [BoxShadow(color: ink, offset: Offset(6, 6))],
+        gradient: LinearGradient(
+          colors: [aqua.withOpacity(0.75), violet.withOpacity(0.75)],
+        ),
+        border: Border.all(color: Colors.white38),
+        boxShadow: [BoxShadow(color: violet.withOpacity(0.45), blurRadius: 22)],
       ),
       child: Material(
         color: Colors.transparent,
@@ -340,21 +297,14 @@ class _PredictorPageState extends State<PredictorPage> {
           borderRadius: BorderRadius.circular(360),
           onTap: _submit,
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 34, vertical: 14),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.auto_awesome_rounded, color: ink),
-                SizedBox(width: 10),
-                Text(
-                  "Check my programs",
-                  style: TextStyle(
-                    color: ink,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+            child: Text(
+              "Check",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -362,56 +312,40 @@ class _PredictorPageState extends State<PredictorPage> {
     );
   }
 
-  // ---------- Result card ----------
   Widget _resultCard() {
-    return PopCard(
-      color: const Color(0xFF05324F),
-      shadow: aqua,
-      angle: 0.012,
+    return Glass(
+      padding: const EdgeInsets.all(22),
       child: SizedBox(
-        height: 430,
+        height: 420,
         child: !_checked
             ? const _Message(
-                icon: Icons.rocket_launch_rounded,
-                color: sun,
-                title: "Your matches land here",
-                body:
-                    "Enter your marks and tap Check to see every program you qualify for.",
+                icon: Icons.auto_awesome_rounded,
+                title: "Your matches appear here",
+                body: "Enter your marks and tap Check.",
               )
             : _matches.isEmpty
-            ? _Message(
-                icon: Icons.sentiment_dissatisfied_rounded,
-                color: coral,
+            ? const _Message(
+                icon: Icons.search_off_rounded,
                 title: "No program matches yet",
-                body:
-                    "The lowest merit is ${programs.map((p) => p.merit).reduce((a, b) => a < b ? a : b)} marks. Retake the test or check the next admission cycle.",
+                body: "Retake the test or check the next admission cycle.",
               )
             : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: lime,
-                      borderRadius: BorderRadius.circular(360),
-                      border: Border.all(color: ink, width: 3),
-                    ),
-                    child: Text(
-                      "You qualify for ${_matches.length} ${_matches.length == 1 ? 'program' : 'programs'}",
-                      style: const TextStyle(
-                        color: ink,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16,
-                      ),
+                  Text(
+                    "${_matches.length} ${_matches.length == 1 ? 'program' : 'programs'} match your score",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: _matches.length,
-                      itemBuilder: (context, i) => _tile(_matches[i], i),
+                      separatorBuilder: (_, __) => const SizedBox(height: 10),
+                      itemBuilder: (context, i) => _tile(_matches[i]),
                     ),
                   ),
                 ],
@@ -420,112 +354,139 @@ class _PredictorPageState extends State<PredictorPage> {
     );
   }
 
-  Widget _tile(Predictor p, int i) {
-    final c = tileColors[i % tileColors.length];
-    return Transform.rotate(
-      angle: i.isEven ? -0.012 : 0.012,
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(4, 6, 10, 8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: c,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: ink, width: 3),
-          boxShadow: const [BoxShadow(color: ink, offset: Offset(5, 5))],
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: ink,
-              child: Icon(iconFor(p.dept), color: c),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    p.programName,
-                    style: const TextStyle(
-                      color: ink,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15,
-                    ),
+  Widget _tile(Predictor p) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.09),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.2)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  p.programName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Text(
-                    p.dept.replaceFirst('Department of ', ''),
-                    style: const TextStyle(
-                      color: ink,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(360),
-                border: Border.all(color: ink, width: 2),
-              ),
-              child: Text(
-                "Merit ${p.merit}",
-                style: const TextStyle(
-                  color: ink,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 12,
                 ),
-              ),
+                const SizedBox(height: 3),
+                Text(
+                  p.dept.replaceFirst('Department of ', ''),
+                  style: const TextStyle(color: Colors.white60, fontSize: 12.5),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: aqua.withOpacity(0.18),
+              borderRadius: BorderRadius.circular(360),
+              border: Border.all(color: aqua.withOpacity(0.5)),
+            ),
+            child: Text(
+              "${p.merit}",
+              style: const TextStyle(color: aqua, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 // ---------- Reusable pieces ----------
+class Glass extends StatelessWidget {
+  final Widget child;
+  final EdgeInsets padding;
+  final double radius;
+  const Glass({
+    super.key,
+    required this.child,
+    this.padding = EdgeInsets.zero,
+    this.radius = 32,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final r = BorderRadius.circular(radius);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: r,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            blurRadius: 36,
+            offset: const Offset(0, 16),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: r,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+          child: Container(
+            padding: padding,
+            decoration: BoxDecoration(
+              borderRadius: r,
+              border: Border.all(
+                color: Colors.white.withOpacity(0.28),
+                width: 1.2,
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.22),
+                  Colors.white.withOpacity(0.06),
+                ],
+              ),
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _Message extends StatelessWidget {
   final IconData icon;
-  final Color color;
   final String title, body;
-  const _Message({
-    required this.icon,
-    required this.color,
-    required this.title,
-    required this.body,
-  });
+  const _Message({required this.icon, required this.title, required this.body});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(icon, size: 72, color: color),
+        Icon(icon, size: 56, color: Colors.white54),
         const SizedBox(height: 14),
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: color,
-            fontSize: 26,
-            fontWeight: FontWeight.w900,
-            fontStyle: FontStyle.italic,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            body,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              height: 1.4,
-            ),
+        const SizedBox(height: 8),
+        Text(
+          body,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white60,
+            fontSize: 14,
+            height: 1.4,
           ),
         ),
       ],
@@ -533,114 +494,27 @@ class _Message extends StatelessWidget {
   }
 }
 
-class PopCard extends StatelessWidget {
-  final Color color, shadow;
-  final double angle;
-  final Widget child;
-  const PopCard({
-    super.key,
-    required this.color,
-    required this.shadow,
-    required this.angle,
-    required this.child,
-  });
+class _Backdrop extends StatelessWidget {
+  const _Backdrop();
 
-  @override
-  Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: angle,
-      child: Container(
-        padding: const EdgeInsets.all(22),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: Colors.white, width: 3),
-          boxShadow: [
-            BoxShadow(color: shadow, offset: const Offset(10, 10)),
-            BoxShadow(
-              color: shadow.withOpacity(0.45),
-              offset: const Offset(20, 20),
-            ),
-          ],
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-class BgPainter extends CustomPainter {
-  const BgPainter();
-
-  @override
-  void paint(Canvas canvas, Size s) {
-    final blob = Paint()
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 70);
-    blob.color = hotPink.withOpacity(0.35);
-    canvas.drawCircle(Offset(s.width * .08, s.height * .15), 200, blob);
-    blob.color = aqua.withOpacity(0.25);
-    canvas.drawCircle(Offset(s.width * .95, s.height * .8), 240, blob);
-    blob.color = sun.withOpacity(0.2);
-    canvas.drawCircle(Offset(s.width * .7, s.height * .02), 150, blob);
-
-    final stripe = Paint()
-      ..color = lime.withOpacity(0.07)
-      ..strokeWidth = 10;
-    for (double i = -s.height; i < s.width; i += 64) {
-      canvas.drawLine(Offset(i, s.height), Offset(i + s.height, 0), stripe);
-    }
-
-    final dot = Paint()..color = Colors.white.withOpacity(0.14);
-    for (double x = 12; x < s.width; x += 26) {
-      for (double y = 12; y < s.height; y += 26) {
-        canvas.drawCircle(Offset(x, y), 1.6, dot);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter old) => false;
-}
-
-class CreditFooter extends StatelessWidget {
-  const CreditFooter({super.key});
-
-  static const _grad = LinearGradient(colors: [sun, hotPink, aqua, lime]);
+  Widget _orb(Color c, double size) => Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: RadialGradient(colors: [c.withOpacity(0.85), c.withOpacity(0)]),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-      decoration: BoxDecoration(
-        color: ink,
-        borderRadius: BorderRadius.circular(360),
-        border: Border.all(color: sun, width: 3),
-        boxShadow: const [BoxShadow(color: hotPink, offset: Offset(6, 6))],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      color: deep,
+      child: Stack(
         children: [
-          ShaderMask(
-            shaderCallback: (b) => _grad.createShader(b),
-            child: const Icon(
-              Icons.favorite_rounded,
-              size: 18,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 10),
-          ShaderMask(
-            shaderCallback: (b) => _grad.createShader(b),
-            child: const Text(
-              "Made by Muzamil Hussain",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.6,
-              ),
-            ),
-          ),
+          Positioned(left: -120, top: -80, child: _orb(violet, 560)),
+          Positioned(right: -140, top: 120, child: _orb(rose, 480)),
+          Positioned(left: 80, bottom: -200, child: _orb(aqua, 620)),
         ],
       ),
     );
